@@ -20,11 +20,6 @@ def get_client_id(header):
     return make_rest_call(url, header)['id']
 
 
-def get_account_id():
-    url = "https://api.harvestapp.com/v2/users/me"
-    return make_rest_call(url, header).gt("id")
-
-
 def print_project_task_ids(header):
     url = "https://api.harvestapp.com/v2/time_entries"
     time_entries = make_rest_call(url, header).get("time_entries")
@@ -71,14 +66,12 @@ def main():
     config.read("config.ini")
 
     access_token = config['global']['access_token']
+    account_id = config['global']['account_id']
     wanted_hours = config.getfloat('global', 'wanted_hours')
     project_id = config['global']['project_id']
     task_id = config['global']['task_id']
 
-    # get account if
-    account_id = get_account_id(header)
-
-    # generate hearad for rest calls
+    # generate header for rest calls
     header = {
         "User-Agent": "Python Harvest API Sample",
         "Authorization": "Bearer " + access_token,
@@ -86,7 +79,6 @@ def main():
     }
 
     current_date = datetime.datetime.today().strftime('%Y-%m-%d')
-
 
     # print project and tasks info
     print_project_task_ids(header)
