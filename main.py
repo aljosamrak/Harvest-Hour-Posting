@@ -1,8 +1,9 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 
 import configparser
 import datetime
 import json
+import pathlib
 import urllib.request
 from urllib.parse import urlencode
 from tabulate import tabulate
@@ -61,9 +62,11 @@ def create_time_entry(project_id, task_id, date, hours, header):
 
 
 def main():
+    config_file = pathlib.Path(__file__).parent / "config.ini"
+
     # read config file
     config = configparser.ConfigParser()
-    config.read("config.ini")
+    config.read(config_file)
 
     access_token = config['global']['access_token']
     account_id = config['global']['account_id']
